@@ -1,21 +1,57 @@
-# ರೇಷ್ಮೆ ನಮ್ಮ ಹೆಮ್ಮೆ — Reshme-Namma Pride (Web)
+# ರೇಷ್ಮೆ ನಮ್ಮ ಹೆಮ್ಮೆ — Reshme Namma Pride
 
-> **Next.js 15 + Firebase port** of the original Kotlin/Android silkworm rearing app.
+> A silkworm rearing management web app for Karnataka farmers, built with Next.js 15 and Firebase.
+
+**Live Demo:** _coming soon — deploy link will appear here_
+
+---
+
+## Problem Statement
+
+Silkworm farmers in Karnataka must monitor temperature, humidity, and rearing stages multiple times a day across different batches. Manual record-keeping is error-prone and farmers often miss optimal windows for feeding or intervention. **Reshme Namma Pride** digitizes this workflow with real-time climate logging, AI-powered advice (Gemini), and harvest countdown tracking — accessible from any mobile browser, in both Kannada and English.
+
+---
+
+## Features
+
+- **Multi-batch management** — create, track, and switch between rearing batches
+- **Climate logging** — log temperature and humidity per time slot (morning / afternoon / night)
+- **Climate dial** — visual SVG dial showing SAFE / CAUTION / DANGER status per instar stage
+- **AI advice** — Gemini-powered contextual advice based on current conditions
+- **Offline fallback advice** — rule-based advice when internet is unavailable
+- **History view** — full timeline of climate readings per batch
+- **Onboarding flow** — guided first-run setup
+- **Bilingual UI** — Kannada (ಕನ್ನಡ) and English toggle
+- **Firebase Auth** — Email/Password and Google Sign-in
+
+---
+
+## Screenshots
+
+| Login | Dashboard | Climate Log |
+|---|---|---|
+| _(screenshot)_ | _(screenshot)_ | _(screenshot)_ |
+
+| Batches | Advice | History |
+|---|---|---|
+| _(screenshot)_ | _(screenshot)_ | _(screenshot)_ |
+
+> Add screenshots to a `/docs/screenshots/` folder and update the table above.
 
 ---
 
 ## Tech Stack
 
-| Layer | Android (original) | Web (this project) |
-|---|---|---|
-| Language | Kotlin | TypeScript |
-| UI | Jetpack Compose / Fragments | Next.js 15 (App Router) |
-| Auth | — | Firebase Authentication |
-| Database | Room (SQLite, local) | Firebase Firestore (cloud) |
-| Background jobs | WorkManager | — (browser notifications TBD) |
-| AI | Gemini SDK (client-side) | Gemini REST API (server-side route) |
-| State | ViewModel + StateFlow | React useState / useEffect |
-| DI | Hilt | — (direct imports) |
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 15 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS |
+| Auth | Firebase Authentication |
+| Database | Firebase Firestore |
+| AI | Gemini REST API (server-side route) |
+| State | React useState / useEffect |
+| Hosting | Vercel |
 
 ---
 
@@ -71,19 +107,23 @@ src/
 ├── app/
 │   ├── api/advice/route.ts     # Server-side Gemini API call
 │   ├── auth/login/page.tsx     # Login / sign-up
-│   ├── dashboard/page.tsx      # Home screen (mirrors HomeFragment)
-│   ├── batches/page.tsx        # Batch CRUD (mirrors BatchFragment)
-│   ├── climate/page.tsx        # Climate entry (mirrors ClimateFragment)
-│   ├── advice/page.tsx         # Advice log (mirrors AdviceFragment)
-│   └── history/page.tsx        # Climate history (mirrors HistoryFragment)
+│   ├── dashboard/page.tsx      # Home screen with climate dial
+│   ├── batches/page.tsx        # Batch CRUD
+│   ├── climate/page.tsx        # Climate entry form
+│   ├── advice/page.tsx         # Advice log
+│   ├── history/page.tsx        # Climate history timeline
+│   └── onboarding/page.tsx     # First-run guided setup
 ├── components/
 │   ├── layout/AppLayout.tsx    # Bottom nav + auth guard
-│   └── climate/ClimateDial.tsx # SVG dial (mirrors DialView canvas)
+│   ├── climate/ClimateDial.tsx # SVG dial (SAFE/CAUTION/DANGER)
+│   └── Onboarding.tsx          # Onboarding wizard
 ├── lib/
 │   ├── firebase.ts             # Firebase app init
-│   ├── firestore.ts            # Firestore DAOs (replaces Room DAOs)
+│   ├── firestore.ts            # Firestore DAOs
 │   ├── auth-context.tsx        # React auth context
-│   └── domain.ts               # Pure domain logic (ported from Kotlin)
+│   ├── domain.ts               # Pure domain logic (instar stages, climate evaluation)
+│   ├── lang-context.tsx        # Language context (Kannada / English)
+│   └── translations.ts         # i18n strings
 └── types/index.ts              # All TypeScript types
 ```
 
@@ -114,5 +154,16 @@ users/{uid}/
 
 ---
 
+## Future Improvements
+
+- Push notifications for missed climate readings
+- Offline PWA support with service workers
+- Export batch data as PDF/CSV report
+- Multi-language support for more Indian languages
+- Collaborative farm accounts (multiple users per farm)
+
+---
+
 ## License
+
 Internal use only · MindMatrix VTU Internship 2025–26
